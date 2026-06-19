@@ -1,0 +1,12 @@
+# Copy to terraform.tfvars (do not commit secrets) or pass as pipeline variables.
+
+resource_group_name  = "rg-prime-counter"
+location             = "centralindia"
+environment          = "dev"
+
+# Must be globally unique across Azure (3-24 lowercase letters and numbers).
+storage_account_name = "stprimecounter001"
+
+tags = {
+  owner = "platform-team"
+}
