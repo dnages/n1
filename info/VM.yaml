@@ -1,0 +1,27 @@
+trigger: main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+  displayName: 'Use Python 3'
+
+- script: |
+    pip install azure-identity azure-mgmt-compute
+  displayName: 'Install Azure dependencies'
+
+- task: AzureCLI@2
+  displayName: 'Run VMSS Scaling Script'
+  inputs:
+    azureSubscription: 'Your-Azure-Service-Connection' # Connects pipeline to Azure subscription
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      # Export subscription ID from the active service connection
+      export AZURE_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+      
+      # Execute your Python script
+      python vm.py
